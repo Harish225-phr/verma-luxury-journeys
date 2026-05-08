@@ -13,7 +13,7 @@ export function FloatingActions() {
   return (
     <>
       <a
-        href="https://wa.me/919816492182"
+        href="https://wa.me/917018182353"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-40 grid h-14 w-14 place-items-center rounded-full bg-[oklch(0.72_0.2_150)] text-white shadow-[0_10px_30px_-5px_oklch(0.72_0.2_150_/_60%)]"
