@@ -1,18 +1,30 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
+
+// Deterministic seeded PRNG so SSR and client agree, then we only render after mount
+function seeded(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 9301 + 49297) % 233280;
+    return s / 233280;
+  };
+}
 
 export function Particles({ count = 30 }: { count?: number }) {
-  const dots = useMemo(
-    () =>
-      Array.from({ length: count }).map((_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        top: Math.random() * 100,
-        size: Math.random() * 3 + 1,
-        delay: Math.random() * 8,
-        duration: 6 + Math.random() * 8,
-      })),
-    [count]
-  );
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const rand = seeded(count * 1337);
+  const dots = Array.from({ length: count }).map((_, i) => ({
+    id: i,
+    left: rand() * 100,
+    top: rand() * 100,
+    size: rand() * 3 + 1,
+    delay: rand() * 8,
+    duration: 6 + rand() * 8,
+  }));
+
+  if (!mounted) return null;
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {dots.map((d) => (
